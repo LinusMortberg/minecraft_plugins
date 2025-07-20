@@ -6,4 +6,4 @@ mvn archetype:generate -DgroupId=com.yourname -DartifactId=myplugin -DarchetypeA
 
 compile command:
 
-mvn package
+mvn clean package

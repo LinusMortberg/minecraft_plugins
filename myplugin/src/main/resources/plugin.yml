@@ -6,4 +6,6 @@ commands:
   leaderboard:
     description: Shows the top players by blocks mined
     usage: /leaderboard
-
+  mystats:
+    description: Shows the players stats
+    usage: /mystats
