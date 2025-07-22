@@ -10,7 +10,7 @@ import java.util.*;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class StatManager {
-    private final Map<UUID, Map<String, Integer>> userStats = new HashMap<>();
+    private final Map<UUID, Map<String, Double>> userStats = new HashMap<>();
     private final File statsFile;
     private final Gson gson = new Gson();
 
@@ -18,14 +18,14 @@ public class StatManager {
         this.statsFile = new File(plugin.getDataFolder(), "stats.json");
     }
 
-    public Map<UUID, Map<String, Integer>> getUserStats() {
+    public Map<UUID, Map<String, Double>> getUserStats() {
         return userStats;
     }
 
     public void incrementStat(UUID uuid, String toolType) {
         userStats.putIfAbsent(uuid, new HashMap<>());
-        Map<String, Integer> stats = userStats.get(uuid);
-        stats.put(toolType, stats.getOrDefault(toolType, 0) + 1);
+        Map<String, Double> stats = userStats.get(uuid);
+        stats.put(toolType, stats.getOrDefault(toolType, 0.0) + 1.0);
     }
 
     public void saveStats() {
@@ -40,10 +40,10 @@ public class StatManager {
         if (!statsFile.exists()) return;
 
         try (Reader reader = new FileReader(statsFile)) {
-            Type type = new TypeToken<Map<String, Map<String, Integer>>>() {}.getType();
-            Map<String, Map<String, Integer>> data = gson.fromJson(reader, type);
+            Type type = new TypeToken<Map<String, Map<String, Double>>>() {}.getType();
+            Map<String, Map<String, Double>> data = gson.fromJson(reader, type);
 
-            for (Map.Entry<String, Map<String, Integer>> entry : data.entrySet()) {
+            for (Map.Entry<String, Map<String, Double>> entry : data.entrySet()) {
                 UUID uuid = UUID.fromString(entry.getKey());
                 userStats.put(uuid, new HashMap<>(entry.getValue()));
             }

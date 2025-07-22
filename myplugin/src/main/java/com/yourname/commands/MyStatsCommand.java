@@ -20,7 +20,7 @@ public class MyStatsCommand implements CommandExecutor {
         if (!(sender instanceof Player)) return true;
         Player player = (Player) sender;
 
-        Map<String, Integer> stats = statManager.getUserStats().get(player.getUniqueId());
+        Map<String, Double> stats = statManager.getUserStats().get(player.getUniqueId());
 
         if (stats == null || stats.isEmpty()) {
             player.sendMessage("§cYou haven’t mined any blocks yet.");
@@ -29,7 +29,7 @@ public class MyStatsCommand implements CommandExecutor {
 
         player.sendMessage("§6§lYour Mined Blocks:");
         stats.entrySet().stream()
-            .sorted(Map.Entry.<String, Integer>comparingByValue().reversed())
+            .sorted(Map.Entry.<String, Double>comparingByValue().reversed())
             .forEach(entry -> player.sendMessage("§e" + entry.getKey() + ": §a" + entry.getValue()));
 
         return true;

@@ -22,15 +22,15 @@ public class LeaderboardCommand implements CommandExecutor {
 
         statManager.getUserStats().entrySet().stream()
             .sorted((a, b) -> {
-                int sumA = a.getValue().values().stream().mapToInt(Integer::intValue).sum();
-                int sumB = b.getValue().values().stream().mapToInt(Integer::intValue).sum();
-                return Integer.compare(sumB, sumA);
+                double sumA = a.getValue().values().stream().mapToDouble(Double::doubleValue).sum();
+                double sumB = b.getValue().values().stream().mapToDouble(Double::doubleValue).sum();
+                return Double.compare(sumB, sumA);
             })
             .limit(5)
             .forEach(entry -> {
                 String name = Bukkit.getOfflinePlayer(entry.getKey()).getName();
-                int total = entry.getValue().values().stream().mapToInt(Integer::intValue).sum();
-                sender.sendMessage("§e" + name + ": §a" + total + " blocks");
+                double total = entry.getValue().values().stream().mapToDouble(Double::doubleValue).sum();
+                sender.sendMessage("§e" + name + ": §a" + String.format("%.2f", total) + " blocks");
             });
 
         return true;
